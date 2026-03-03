@@ -55,6 +55,9 @@ driver.find_element(By.NAME, "Password").send_keys(PASSWORD)
 driver.find_element(By.XPATH, "//button[contains(text(),'Sign In')]").click()
 
 print("✅ Logged in")
+
+driver.save_screenshot("/tmp/after_login.png")
+print("Screenshot saved")
 time.sleep(15)
 
 # ================= OPEN SALES ANALYZER =================
