@@ -34,3 +34,11 @@ jobs:
         EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
         EMAIL_TO: ${{ secrets.EMAIL_TO }}
       run: python AutoDownloadJKRCloud.py
+
+
+    - name: Upload Debug Screenshot
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: debug-images
+        path: /tmp/*.png
