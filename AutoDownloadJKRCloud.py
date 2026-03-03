@@ -21,21 +21,29 @@ PASSWORD = os.environ["PASSWORD"]
 download_path = "/tmp"
 
 chrome_options = Options()
+
 chrome_options.add_argument("--headless=new")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--window-size=1920,1080")
 
+chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+chrome_options.add_experimental_option("useAutomationExtension", False)
+
 prefs = {
-    "download.default_directory": download_path,
+    "download.default_directory": "/tmp",
     "download.prompt_for_download": False,
-    "download.directory_upgrade": True,
+    "directory_upgrade": True,
     "safebrowsing.enabled": True
 }
-
 chrome_options.add_experimental_option("prefs", prefs)
 
 driver = webdriver.Chrome(options=chrome_options)
+
+# Remove automation flag
+driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
 wait = WebDriverWait(driver, 40)
 
 # ================= LOGIN =================
