@@ -58,7 +58,26 @@ print("✅ Logged in")
 
 driver.save_screenshot("/tmp/after_login.png")
 print("Screenshot saved")
-time.sleep(15)
+# Click login
+driver.find_element(By.XPATH, "//button[contains(text(),'Sign In')]").click()
+
+print("Login clicked, waiting for dashboard...")
+
+# Wait until loading overlay disappears (if exists)
+wait.until(
+    EC.invisibility_of_element_located(
+        (By.XPATH, "//*[contains(text(),'Connecting')]")
+    )
+)
+
+# Now wait for Sales Analyzer to appear
+sales_analyzer_link = wait.until(
+    EC.element_to_be_clickable(
+        (By.XPATH, "//a[contains(@ui-sref,'SalesAnalyser')]")
+    )
+)
+
+print("✅ Dashboard loaded")
 
 # ================= OPEN SALES ANALYZER =================
 
