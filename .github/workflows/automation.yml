@@ -1,23 +1,36 @@
-name: Run Automation
+name: JKR Sales Automation
 
 on:
   schedule:
-    - cron: '0 4 * * *'   # Runs daily 9:30 AM IST
-  workflow_dispatch:
+    - cron: '0 4 * * *'   # Runs daily at 9:30 AM IST
+  workflow_dispatch:      # Allows manual run
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
     - name: Install Chrome
       uses: browser-actions/setup-chrome@v1
 
-    - name: Install dependencies
+    - name: Install Dependencies
       run: |
+        pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Script
-      run: python your_script.py
+    - name: Run Automation Script
+      env:
+        USERNAME: ${{ secrets.USERNAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        EMAIL_USER: ${{ secrets.EMAIL_USER }}
+        EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        EMAIL_TO: ${{ secrets.EMAIL_TO }}
+      run: python AutoDownloadJKRCloud.py
