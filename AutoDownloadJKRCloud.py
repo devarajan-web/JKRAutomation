@@ -47,6 +47,7 @@ driver.find_element(By.NAME, "Password").send_keys(PASSWORD)
 driver.find_element(By.XPATH, "//button[contains(text(),'Sign In')]").click()
 
 print("✅ Logged in")
+time.sleep(15)
 
 # ================= OPEN SALES ANALYZER =================
 
